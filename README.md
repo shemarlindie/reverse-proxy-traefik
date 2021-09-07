@@ -1,6 +1,8 @@
 # Reverse Proxy using [Traefik](https://github.com/traefik/traefik)
 Traefik template for hosting multiple containers on the same port via reverse proxy.
 
+![](screenshots/dashboard.png)
+
 ## Overview
 - Uses the Docker version of Traefik (in `./reverse-proxy`)
 - Includes two sample apps running a basic httpd server for testing (in `./site1`, `./site2`)
@@ -29,7 +31,17 @@ While debugging uncomment the following in `reverse-proxy/docker-compose.yml`:
 
 This will likely result in a `ERR_CERT_AUTHORITY_INVALID` when accessing URLs.  
 
-They are uncommented by default. Remove or comment them again when you're ready to deploy.
+They are uncommented by default. Remove or comment them again when you're ready to deploy. 
+
+**Don't forget to clear the old test certificates and re-run the container after disabling the staging server:**
+> cd ./reverse-proxy
+ 
+> docker-compose down
+
+> rm -rf ./letsencrypt
+
+> docker-compose up -d --build
+
 
 #### Configure each app's `docker-compose.yml`
 - Domain (`site1/docker-compose.yml` line 8)
