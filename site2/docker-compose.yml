@@ -1,0 +1,18 @@
+version: "3.5"
+services:
+  web:
+    container_name: site2
+    build: .
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.site2.rule=Host(`site2.example.com`)"
+      - "traefik.http.routers.site2.entrypoints=web,websecure"
+      - "traefik.http.routers.site2.tls.certresolver=myresolver"
+      - "traefik.http.routers.site2.tls=true"
+    networks:
+      - proxynet
+
+networks:
+  proxynet:
+    external: true
+    name: traefik_net

@@ -1,0 +1,47 @@
+version: '3.5'
+
+services:
+  reverse-proxy:
+    # The official v2 Traefik docker image
+    image: traefik:v2.5
+    container_name: "reverse_proxy"
+    command: 
+      - "--log.level=DEBUG"
+      # - "--api.insecure=true"
+      - "--api.dashboard=true"
+      - "--providers.docker" 
+      - "--entrypoints.web.address=:80" 
+      - "--entrypoints.websecure.address=:443"
+      - "--certificatesresolvers.myresolver.acme.email=youremail@example.com"
+      - "--certificatesresolvers.myresolver.acme.storage=/letsencrypt/acme.json"
+      - "--certificatesresolvers.myresolver.acme.httpchallenge.entrypoint=web"
+      - "--entrypoints.web.http.redirections.entryPoint.to=websecure"
+      - "--entrypoints.web.http.redirections.entryPoint.scheme=https"
+      - "--entrypoints.web.http.redirections.entrypoint.permanent=true"
+      - "--certificatesresolvers.myresolver.acme.caserver=https://acme-staging-v02.api.letsencrypt.org/directory"
+    labels:
+      - "traefik.http.routers.dashboard.rule=Host(`dev.example.com`)"
+      - "traefik.http.routers.dashboard.service=api@internal"
+      - "traefik.http.routers.dashboard.entrypoints=web,websecure"
+      - "traefik.http.routers.dashboard.tls.certresolver=myresolver"
+      - "traefik.http.routers.dashboard.tls=true"
+      - "traefik.http.routers.dashboard.middlewares=auth"
+      - "traefik.http.middlewares.auth.basicauth.usersfile=/etc/config/.users"
+    ports:
+      - "80:80"
+      - "443:443"
+      # For insecure web ui (enabled by --api.insecure=true)
+      # - "8080:8080"
+    volumes:
+      # So that Traefik can listen to the Docker events
+      - /var/run/docker.sock:/var/run/docker.sock
+      # Access to certs and users
+      - ./letsencrypt:/letsencrypt
+      - ./.users:/etc/config/.users
+    networks:
+      - proxynet
+
+# shared network to be used by app containers
+networks:
+  proxynet:
+    name: traefik_net
