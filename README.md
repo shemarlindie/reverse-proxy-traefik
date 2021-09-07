@@ -66,8 +66,8 @@ Create ANAME DNS records pointing each configured domain to the IP address of se
 ###### Dashboard
 
 - Open the configured dashboard domain in your browser.
-- For example, if I configured `dev.example.com` as the dashboard domain, https://dev.example.com
+- For example, if I configured `dev.example.com` as the dashboard domain, `https://dev.example.com`
 
 ###### Other apps
 - Open the configured URL for each running app.
-- For example, https://site1.example.com 
+- For example, `https://site1.example.com`
