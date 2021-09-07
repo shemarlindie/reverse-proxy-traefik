@@ -7,13 +7,14 @@ Traefik template for hosting multiple containers on the same port via reverse pr
 - Configured for secure dashboard and apps with auto-generated SSL certs
 - Cert config is accessible via volume in `./reverse-proxy/letsencrypt/acme.json` when the container has been run
 
+## Requirements
+- [htpasswd](https://www.digitalocean.com/community/tutorials/how-to-set-up-password-authentication-with-apache-on-ubuntu-18-04-quickstart) 
+- [Docker](https://www.docker.com/)
+
 ## Setup
 
-#### Install `htpasswd`
-https://www.digitalocean.com/community/tutorials/how-to-set-up-password-authentication-with-apache-on-ubuntu-18-04-quickstart
-
 #### Generate dashboard users
-> htpasswd reverse-proxy/.users admin
+> htpasswd -c reverse-proxy/.users admin
 
 Follow the prompts to generate the admin user. Repeat for any additional users required.
 
@@ -25,6 +26,8 @@ Follow the prompts to generate the admin user. Repeat for any additional users r
 While debugging uncomment the following in `reverse-proxy/docker-compose.yml`:
 - Line 9 `# - "--log.level=DEBUG"`: to show more verbose log messages
 - Line 21 `# - "--certificatesresolvers.myresolver.acme.caserver=https://acme-staging-v02.api.letsencrypt.org/directory"`: to use letsencrypt staging server for test certificates
+
+This will likely result in a `ERR_CERT_AUTHORITY_INVALID` when accessing URLs.  
 
 They are uncommented by default. Remove or comment them again when you're ready to deploy.
 
@@ -39,13 +42,32 @@ Repeat for each additional app.
 
 #### Start Traefik container
 > cd ./reverse-proxy
+
 > docker-compose up -d --build
 
 > docker-compose logs -f
 
 #### Start apps
 > cd ./site1
+
 > docker-compose up -d --build
 
 > cd ./site1
+
 > docker-compose up -d --build
+
+
+#### Configure DNS records
+
+Create ANAME DNS records pointing each configured domain to the IP address of server you're hosting Traefik on.
+
+#### Access apps
+
+###### Dashboard
+
+- Open the configured dashboard domain in your browser.
+- For example, if I configured `dev.example.com` as the dashboard domain, https://dev.example.com
+
+###### Other apps
+- Open the configured URL for each running app.
+- For example, https://site1.example.com 
