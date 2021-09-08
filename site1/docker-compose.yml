@@ -2,6 +2,7 @@ version: "3.5"
 services:
   web:
     container_name: site1
+    restart: unless-stopped
     build: .
     labels:
       - "traefik.enable=true"
