@@ -5,7 +5,7 @@ services:
     # The official v2 Traefik docker image
     image: traefik:v2.5
     container_name: "reverse_proxy"
-    restart: unless-stopped
+    restart: always
     command: 
       - "--log.level=DEBUG"
       # - "--api.insecure=true"
