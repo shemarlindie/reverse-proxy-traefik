@@ -3,7 +3,7 @@ version: '3.5'
 services:
   reverse-proxy:
     # The official v2 Traefik docker image
-    image: traefik:v2.5
+    image: traefik:v2.10
     container_name: "reverse_proxy"
     restart: always
     command: 

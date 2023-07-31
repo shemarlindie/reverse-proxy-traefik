@@ -44,7 +44,8 @@ They are uncommented by default. Remove or comment them again when you're ready 
 
 
 #### Configure each app's `docker-compose.yml`
-- Domain (`site1/docker-compose.yml` line 8)
+- Domain - replace `site1.example.com` in `site1/docker-compose.yml` (line 9)
+- Router - replace `site1` in `traefik.http.routers.site1` with the site name in `site1/docker-compose.yml` (lines 9-12)
 
 Repeat for each additional app.
 
