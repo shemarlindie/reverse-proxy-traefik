@@ -20,14 +20,14 @@ Traefik template for hosting multiple containers on the same port via reverse pr
 
 Follow the prompts to generate the admin user. Repeat for any additional users required.
 
-#### Configure `reverse-proxy/docker-compose.yml`
-- Cert generation email (line  15)
-- Dashboard domain (line 23)
+#### Configure labels in `reverse-proxy/docker-compose.yml`
+- Cert generation email (`certificatesresolvers.myresolver.acme.email`)
+- Dashboard domain (`traefik.http.routers.dashboard.rule`)
 
 #### Debug Config
-While debugging uncomment the following in `reverse-proxy/docker-compose.yml`:
-- Line 9 `# - "--log.level=DEBUG"`: to show more verbose log messages
-- Line 21 `# - "--certificatesresolvers.myresolver.acme.caserver=https://acme-staging-v02.api.letsencrypt.org/directory"`: to use letsencrypt staging server for test certificates
+While debugging uncomment the following command args in `reverse-proxy/docker-compose.yml`:
+- `# - "--log.level=DEBUG"`: to show more verbose log messages
+- `# - "--certificatesresolvers.myresolver.acme.caserver=https://acme-staging-v02.api.letsencrypt.org/directory"`: to use letsencrypt staging server for test certificates
 
 This will likely result in a `ERR_CERT_AUTHORITY_INVALID` when accessing URLs.  
 
@@ -43,9 +43,9 @@ They are uncommented by default. Remove or comment them again when you're ready 
 > docker-compose up -d --build
 
 
-#### Configure each app's `docker-compose.yml`
-- Domain - replace `site1.example.com` in `site1/docker-compose.yml` (line 9)
-- Router - replace `site1` in `traefik.http.routers.site1` with the site name in `site1/docker-compose.yml` (lines 9-12)
+#### Configure each app's `docker-compose.yml` (example)
+- Domain - replace `site1.example.com` in `site1/docker-compose.yml`
+- Router - replace `site1` in all occurrences of `traefik.http.routers.site1` with the real site name in `site1/docker-compose.yml`
 
 Repeat for each additional app.
 

@@ -1,5 +1,6 @@
 reverse-proxy/letsencrypt
 reverse-proxy/.users
+reverse-proxy/logs
 
 .idea
 .vscode

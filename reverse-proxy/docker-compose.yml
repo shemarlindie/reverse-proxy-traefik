@@ -6,8 +6,11 @@ services:
     image: traefik:v2.10
     container_name: "reverse_proxy"
     restart: always
-    command: 
+    command:
       - "--log.level=DEBUG"
+      - "--log.filePath=/logs/traefik.log"
+      - "--accesslog=true"
+      - "--accesslog.filePath=/logs/access.log"
       # - "--api.insecure=true"
       - "--api.dashboard=true"
       - "--providers.docker" 
@@ -39,6 +42,7 @@ services:
       # Access to certs and users
       - ./letsencrypt:/letsencrypt
       - ./.users:/etc/config/.users
+      - ./logs/:/logs/
     networks:
       - proxynet
 
