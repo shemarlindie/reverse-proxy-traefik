@@ -1,7 +1,7 @@
 services:
   reverse-proxy:
-    # The official v2 Traefik docker image
-    image: traefik:v3.6
+    # The official v3 Traefik docker image
+    image: traefik:v3.7
     container_name: "reverse_proxy"
     restart: always
     command:
@@ -11,9 +11,9 @@ services:
       - "--accesslog.filePath=/logs/access.log"
       # - "--api.insecure=true"
       - "--api.dashboard=true"
-      - "--providers.docker" 
-      - "--core.defaultRuleSyntax=v2" 
-      - "--entrypoints.web.address=:80" 
+      - "--providers.docker"
+      - "--core.defaultRuleSyntax=v2"
+      - "--entrypoints.web.address=:80"
       - "--entrypoints.websecure.address=:443"
       - "--certificatesresolvers.myresolver.acme.email=youremail@example.com"
       - "--certificatesresolvers.myresolver.acme.storage=/letsencrypt/acme.json"

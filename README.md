@@ -18,7 +18,7 @@ Traefik template for hosting multiple containers on the same port via reverse pr
 #### Generate dashboard users
 > htpasswd -c reverse-proxy/.users admin
 
-Follow the prompts to generate the admin user. Repeat for any additional users required.
+Follow the prompts to generate the admin user. The file must contain at least one user before starting Traefik. Repeat for any additional users required.
 
 #### Configure labels in `reverse-proxy/docker-compose.yml`
 - Cert generation email (`certificatesresolvers.myresolver.acme.email`)
